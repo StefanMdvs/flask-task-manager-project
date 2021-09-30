@@ -4,6 +4,8 @@ from flask import (
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from werkzeug.security import generate_password_hash, check_password_hash
+
 """
 Since we are not going to push the env.py file to GitHub, once our app is deployed to
 Heroku, it won't be able to find the env.py file, so it will throw an error.
@@ -30,6 +32,10 @@ def get_tasks():
     tasks = mongo.db.tasks.find()
     return render_template("tasks.html", tasks=tasks)
 
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    return render_template("register.html")
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
